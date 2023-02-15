@@ -5,7 +5,7 @@
 
     // Comprueba si el usuario ha iniciado sesión
     if (!isset($_SESSION["username"])) {
-        header("Location: login.php");
+        header("Location: /user/login");
         exit();
     }
 

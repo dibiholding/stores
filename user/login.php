@@ -3,7 +3,7 @@
 
     // Comprueba si el usuario ya ha iniciado sesión
     if (isset($_SESSION["username"])) {
-        header("Location: index.php");
+        header("Location: /");
         exit();
     }
 
@@ -20,7 +20,7 @@
         }
 
         // Busca el usuario en la base de datos
-        $stmt = mysqli_prepare($conn, "SELECT * FROM usuarios WHERE username = ?");
+        $stmt = mysqli_prepare($conn, "SELECT * FROM users WHERE username = ?");
         mysqli_stmt_bind_param($stmt, "s", $username);
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
@@ -30,7 +30,7 @@
             // Comprueba si la contraseña es correcta utilizando password_verify()
             if (password_verify($password, $row["password"])) {
                 $_SESSION["username"] = $username;
-                header("Location: index.php");
+                header("Location: /");
                 exit();
             }
         }
