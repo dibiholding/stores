@@ -1,5 +1,14 @@
 <?php
-require_once "config.php";
+    require_once "config.php";
+
+    session_start();
+
+    // Comprueba si el usuario ha iniciado sesión
+    if (!isset($_SESSION["username"])) {
+        header("Location: login.php");
+        exit();
+    }
+
 ?>
 
 <!DOCTYPE html>
