@@ -12,12 +12,6 @@
         // Encripta la contraseña con la función password_hash()
         $password_encrypted = password_hash($password, PASSWORD_DEFAULT);
         
-        $conn = mysqli_connect($servername, $dbusername, $dbpassword, $dbname);
-        
-        if (!$conn) {
-            die("La conexión con la base de datos ha fallado: " . mysqli_connect_error());
-        }
-        
         // Comprueba si el nombre de usuario ya está en uso
         $stmt = mysqli_prepare($conn, "SELECT * FROM users WHERE username = ?");
         mysqli_stmt_bind_param($stmt, "s", $username);
