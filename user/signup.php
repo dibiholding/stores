@@ -1,38 +1,39 @@
 <?php
 
-    require_once("../config.php");
+  require_once("../config.php");
 
-    // Comprueba si se ha enviado el formulario de registro
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // Recoge los datos del formulario
-        $username = $_POST["username"];
-        $password = $_POST["password"];
-        $email = $_POST["email"];
-        
-        // Encripta la contraseña con la función password_hash()
-        $password_encrypted = password_hash($password, PASSWORD_DEFAULT);
-        
-        // Comprueba si el nombre de usuario ya está en uso
-        $stmt = mysqli_prepare($conn, "SELECT * FROM users WHERE username = ?");
-        mysqli_stmt_bind_param($stmt, "s", $username);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
-        
-        if (mysqli_num_rows($result) > 0) {
-            echo "El nombre de usuario ya está en uso";
+  // Comprueba si se ha enviado el formulario de registro
+  if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Recoge los datos del formulario
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+    $email = $_POST["email"];
+    
+    // Encripta la contraseña con la función password_hash()
+    $password_encrypted = password_hash($password, PASSWORD_DEFAULT);
+    
+    // Comprueba si el nombre de usuario ya está en uso
+    $stmt = mysqli_prepare($conn, "SELECT * FROM users WHERE username = ?");
+    mysqli_stmt_bind_param($stmt, "s", $username);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    
+    if (mysqli_num_rows($result) > 0) {
+        echo "El nombre de usuario ya está en uso";
+    } else {
+        // Inserta el nuevo usuario en la base de datos con la contraseña encriptada
+        $stmt = mysqli_prepare($conn, "INSERT INTO users (username, password, email) VALUES (?, ?, ?)");
+        mysqli_stmt_bind_param($stmt, "sss", $username, $password_encrypted, $email);
+        if (mysqli_stmt_execute($stmt)) {
+            echo "Usuario registrado con éxito";
         } else {
-            // Inserta el nuevo usuario en la base de datos con la contraseña encriptada
-            $stmt = mysqli_prepare($conn, "INSERT INTO users (username, password, email) VALUES (?, ?, ?)");
-            mysqli_stmt_bind_param($stmt, "sss", $username, $password_encrypted, $email);
-            if (mysqli_stmt_execute($stmt)) {
-                echo "Usuario registrado con éxito";
-            } else {
-                echo "Error al registrar al usuario: " . mysqli_error($conn);
-            }
+            echo "Error al registrar al usuario: " . mysqli_error($conn);
         }
-        
-        mysqli_close($conn);
     }
+    mysqli_close($conn);
+  } else {
+    echo "smthing went bad";
+  }
 ?>
 <!DOCTYPE html>
 <html>
