@@ -41,7 +41,7 @@
   </head>
   <body>
     <h1>Registro de usuario</h1>
-    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+    <form method="post" action="/user/signup">
       <label for="username">Nombre de usuario:</label>
       <input type="text" name="username" required><br><br>
       <label for="password">Contraseña:</label>
