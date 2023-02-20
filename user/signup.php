@@ -26,6 +26,8 @@
         mysqli_stmt_bind_param($stmt, "sss", $username, $password_encrypted, $email);
         if (mysqli_stmt_execute($stmt)) {
             echo "Usuario registrado con éxito";
+            header("Location: /user/login");
+            exit();
         } else {
             echo "Error al registrar al usuario: " . mysqli_error($conn);
         }
