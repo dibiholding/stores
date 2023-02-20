@@ -30,9 +30,6 @@
             echo "Error al registrar al usuario: " . mysqli_error($conn);
         }
     }
-    mysqli_close($conn);
-  } else {
-    echo "smthing went bad";
   }
 ?>
 <!DOCTYPE html>
